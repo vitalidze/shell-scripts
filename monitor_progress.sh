@@ -1,4 +1,5 @@
 #!/bin/bash
+# see also http://vitalidze.github.com/2012/11/25/Simple-progress-bar-in-bash/
 to_monitor=$1
 target_gb=$2
 read_mb=0
