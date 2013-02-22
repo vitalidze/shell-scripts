@@ -1,0 +1,23 @@
+#!/bin/bash
+
+#
+# converts specified images to grayscale png and then to fax format
+#
+
+OUT_DIR=out
+mkdir -p $OUT_DIR
+mkdir -p $OUT_DIR/tmp
+mkdir -p $OUT_DIR/fax
+
+for f in $@;
+do
+        OUT_PNG=$OUT_DIR/tmp/$f.png
+        #
+        # convert to grayscale 'photocopy' like png
+        #
+        convert $f -colorspace gray -contrast-stretch 10%x0% \( +clone -blur 0x2 \) +swap -compose divide -composite $OUT_PNG
+        #
+        # convert to fax tiff format
+        #
+        convert -density 204x196 -units PixelsPerInch $OUT_PNG -resize '1728x2156' -compress FAX $OUT_DIR/fax/$f.fax.tiff
+done
